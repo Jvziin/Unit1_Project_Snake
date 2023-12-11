@@ -11,13 +11,20 @@ function init() {
     const height = 10
     const cellCount = width * height
     let cells = []
+    let foodLocation
+    let snake = [3, 2, 1]
+
+    // use pop and unshift 
+    // pop remove the tail and unshit add the head
+    // use this to move the snake
+    // for each to apply the class and remove to each part of the snake
   
     // CHARACTER CONFIG
     const startingPosition = 0  
     let currentPosition = startingPosition
 
     // FOOD CONFIG
-    const foodStartingPosition = 80
+    const foodStartingPosition = 66
     let currentFoodPosition = foodStartingPosition
 
 
@@ -33,36 +40,22 @@ function init() {
       }
 
       addHead(currentPosition)
-      addFood(currentFoodPosition)
-    }
-
-    // FOOD
-    function setRandomPosition() {
-        const randomColumn = Math.floor(Math.random() * width) + 1
-        const randomRow = Math.floor(Math.random() * height) + 1
-        
-        randomFood.style.gridColumn = `${randomColumn} / span 1`
-        randomFood.style.gridRow = `${randomRow}/ span 1`
-    }
-
-    function placeFood(grid) {
-        const foodPosition = setRandomPosition();
-        const isOccupied = snake.some(segment => segment.x === foodPosition.x && segment.y === foodPosition.y);
-        if (isOccupied) {
-            return placeFood(grid);
-          }
-          grid[foodPosition.y][foodPosition.x] = 'F';
+      addFood()
     }
 
     // ADD HEAD CLASS 
     function addHead(position) {
+        //foEach
         cells[position].classList.add("head")
     }
     // ADD FOOD CLASS
-    function addFood(position) {
-        cells[position].classList.add("food")
+    function addFood() {
+        foodLocation = Math.floor(Math.random() * cellCount) 
+        cells[foodLocation].classList.add("food")
     }
-
+    function removeFood(position) {
+        cells[position].classList.remove("food")
+    }
     //REMOVE HEAD CLASS
     function removeHead() {
         cells[currentPosition].classList.remove("head")
@@ -104,13 +97,9 @@ function init() {
     
     // EVENTS
     document.addEventListener("keyup", handleMovement)
-    randomFood.addEventListener("click", setRandomPosition)
-
 
     // LOAD PAGE
     createGrid()
-    setRandomPosition()
-    placeFood(grid)
   }
   
 window.addEventListener("DOMContentLoaded", init)
