@@ -76,3 +76,7 @@ a:hover {
     padding: 20px;
     width: 50px;
 }
+
+.grid div.snakeBody {
+    background-color: rgb(131, 26, 105);
+}

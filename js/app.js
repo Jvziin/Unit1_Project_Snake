@@ -13,6 +13,7 @@ function init() {
     let cells = []
     let foodLocation
     let snake = [3, 2, 1]
+    let snakeDirection = 1
 
     // use pop and unshift 
     // pop remove the tail and unshit add the head
@@ -20,7 +21,7 @@ function init() {
     // for each to apply the class and remove to each part of the snake
   
     // CHARACTER CONFIG
-    const startingPosition = 0  
+    const startingPosition = 3 
     let currentPosition = startingPosition
 
     // FOOD CONFIG
@@ -39,29 +40,51 @@ function init() {
         cells.push(cell)
       }
 
-      addHead(currentPosition)
+      addHead()
       addFood()
     }
 
     // ADD HEAD CLASS 
     function addHead(position) {
-        //foEach
-        cells[position].classList.add("head")
+        const [snakeHead, ...snakeBody] = snake
+        cells[snakeHead].classList.add("head")
+        snakeBody.forEach(bodyPosition => {
+            cells[bodyPosition].classList.add("snakeBody")
+        })
     }
     // ADD FOOD CLASS
     function addFood() {
         foodLocation = Math.floor(Math.random() * cellCount) 
         cells[foodLocation].classList.add("food")
     }
-    function removeFood(position) {
-        cells[position].classList.remove("food")
+    function removeFood() {
+        cells[foodLocation].classList.remove("food")
     }
     //REMOVE HEAD CLASS
     function removeHead() {
-        cells[currentPosition].classList.remove("head")
+        const [snakeHead, ...snakeBody] = snake
+        cells[snakeHead].classList.remove("head")
+        snakeBody.forEach(bodyPosition => {
+            cells[bodyPosition].classList.remove("snakeBody")
+        })
     }
 
     // ? HANDLE MOVEMENT 
+
+    function moveSnake() {
+        timer = setInterval(() => {
+            removeHead()
+            if (!cells[snake[0] + snakeDirection].classList.contains("food")) {
+                snake.pop()
+            } else {
+                removeFood()
+                addFood()
+            } 
+            snake.unshift(snake[0] + snakeDirection)
+            addHead()
+        }, 200)
+    }
+
     function handleMovement(event) {
         const key = event.key
 
@@ -74,25 +97,33 @@ function init() {
         removeHead()
 
         // check which key was pressed and execute code
-        if (key === up && currentPosition >= width) {
-            currentPosition -= width
+        if (key === up && snakeDirection !== 10) {
+            // currentPosition -= width
+            snakeDirection = -10
             console.log("UP")
-        }else if (key === down && currentPosition + width <= cellCount -1) {
-            currentPosition += width
+        }else if (key === down && currentPosition + width <= cellCount -1 && snakeDirection !== -10) {
+            // currentPosition += width
+            snakeDirection = 10
             console.log("DOWN")
-        }else if (key === left && currentPosition % width !== 0) {   
-            currentPosition--   
+        }else if (key === left && currentPosition % width !== 0 && snakeDirection !== 1) {   
+            // currentPosition--   
+            snakeDirection = -1
             console.log("LEFT")
-        }else if (key === right && currentPosition % width !== width -1) {
+        }else if (key === right && currentPosition % width !== width -1 && snakeDirection !== -1) {
             console.log("RIGHT")
-            currentPosition++
+            // removeHead()
+            // snake.pop()
+            // currentPosition++
+            // snake.unshift(snake[0] + snakeDirection)
+            // addHead()
+            snakeDirection = 1
             console.log(currentPosition)
         }else {
             console.log("INVALID KEY")
         }
 
         // Add Head class once currentPosition has been updated
-        addHead(currentPosition)
+        addHead()
     }
     
     // EVENTS
@@ -100,6 +131,8 @@ function init() {
 
     // LOAD PAGE
     createGrid()
+    moveSnake()
+
   }
   
 window.addEventListener("DOMContentLoaded", init)
