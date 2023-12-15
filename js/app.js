@@ -96,10 +96,9 @@ function init() {
                 document.getElementById("startBtn").style.display = "block"
                 return 
             }
-            console.log()
+            
             if (cells[headIndex].classList.contains("snakeBody")) {
                 clearInterval(timer)
-                console.log("hi")
                 gameOver()
                 document.getElementById("startBtn").style.display = "block"
                 return true
@@ -111,7 +110,6 @@ function init() {
                 removeFood()
                 addFood()
                 score++
-                console.log(`score: ` + score)
             } 
             snake.unshift(snake[0] + snakeDirection)
             addHead()
@@ -127,25 +125,19 @@ function init() {
         const left = "ArrowLeft"
         const right = "ArrowRight"
 
-        // Remove head from previous position before updating current position to new cell
         removeHead()
 
-        // check which key was pressed and execute code
         if (key === up && snakeDirection !== 10) {
-            // currentPosition -= width
             snakeDirection = -10
         }else if (key === down && currentPosition + width <= cellCount -1 && snakeDirection !== -10) {
-            // currentPosition += width
             snakeDirection = 10
         }else if (key === left && currentPosition % width !== 0 && snakeDirection !== 1) {   
-            // currentPosition--   
             snakeDirection = -1
         }else if (key === right && currentPosition % width !== width -1 && snakeDirection !== -1) {
             snakeDirection = 1
         }else {
         }
 
-        // Add Head class once currentPosition has been updated
         addHead()
     }
 
