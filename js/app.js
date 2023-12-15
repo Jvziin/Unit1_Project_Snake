@@ -82,7 +82,7 @@ function init() {
 
     function moveSnake() {
         timer = setInterval(() => {
-            removeHead()
+            // removeHead()
             // checkCollision()
             const headIndex = snake[0]
             if ((Math.floor(headIndex / width) === 0 && snakeDirection === -10) ||
@@ -91,19 +91,20 @@ function init() {
                 (headIndex % width === 0 && snakeDirection === -1 )
             ) {
                 clearInterval(timer)
-                // alert("GAME OVER")
+                
                 gameOver()
                 document.getElementById("startBtn").style.display = "block"
                 return 
             }
+            console.log()
             if (cells[headIndex].classList.contains("snakeBody")) {
                 clearInterval(timer)
-                // alert("GAME OVER")
+                console.log("hi")
                 gameOver()
                 document.getElementById("startBtn").style.display = "block"
                 return true
             }
-
+            removeHead()
             if (!cells[snake[0] + snakeDirection].classList.contains("food")) {
                 snake.pop()
             } else {
