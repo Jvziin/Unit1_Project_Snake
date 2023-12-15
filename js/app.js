@@ -51,8 +51,9 @@ function init() {
     // ADD FOOD
     function addFood() {
         foodLocation = Math.floor(Math.random() * cellCount) 
-        // check that foodLocation not included  //includes()
-        // foodLocation.includes("snakeBody")
+        while (snake.includes(foodLocation)) {
+            foodLocation = Math.floor(Math.random() * cellCount)
+        }
         cells[foodLocation].classList.add("food")
     }
 
@@ -77,6 +78,11 @@ function init() {
     }
 
     // ? HANDLE MOVEMENT 
+
+    function displayStartButton() {
+        document.getElementById("startBtn").style.display = "block"
+    }
+
     function checkCollision() {
         const headIndex = snake[0]
         if ((Math.floor(headIndex / width) === 0 && snakeDirection === -10) ||
@@ -85,15 +91,16 @@ function init() {
             (snakeDirection === -1 && headIndex % width === 0)
         ) {
             clearInterval(timer)
-            alert("Game Over - Hit the walls!")
+            displayStartButton()
+            alert("GAME OVER")
             return 
         }
         if (cells[headIndex].classList.contains("snakeBody")) {
             clearInterval(timer)
-            alert("Game Over - Collision with the body!")
+            displayStartButton()
+            alert("GAME OVER")
             return true
         }
-
     }
 
     function moveSnake() {
@@ -109,9 +116,6 @@ function init() {
                 console.log(`score: ` + score)
             } 
             snake.unshift(snake[0] + snakeDirection)
-            if (checkCollision) {
-                //start button display
-            }
             addHead()
             updateScore()
         }, 200)
