@@ -19,6 +19,7 @@ body {
     display: flex;
     align-items: center;
     align-content: center;
+    margin-top: -60px;
 }
   
 .grid {
@@ -86,4 +87,14 @@ a:hover {
     margin-bottom: -80px;
     width: 50px;
     color: rgb(185, 226, 252);
+}
+
+h4 {
+    color: rgb(185, 226, 252);
+    font-size: 50px;
+    margin-left: 40px;
+}
+
+#startBtn {
+    display: none;
 }

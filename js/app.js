@@ -1,9 +1,5 @@
 function init() {
 
-    //!! FIX SHOW SCORE
-    //! Make snake speed up as it eats
-    //! start button
-
     // ? ELEMENTS
     // create grid
     const grid = document.querySelector(".grid")
@@ -55,6 +51,8 @@ function init() {
     // ADD FOOD
     function addFood() {
         foodLocation = Math.floor(Math.random() * cellCount) 
+        // check that foodLocation not included  //includes()
+        // foodLocation.includes("snakeBody")
         cells[foodLocation].classList.add("food")
     }
 
@@ -74,7 +72,7 @@ function init() {
     function updateScore() {
         const scoreDisplay = document.getElementById("scoreDisplay");
         if (scoreDisplay) {
-            scoreDisplay.innerText = score;
+            scoreDisplay.innerText = `Score: ` + score;
         }
     }
 
@@ -88,13 +86,14 @@ function init() {
         ) {
             clearInterval(timer)
             alert("Game Over - Hit the walls!")
-            return
+            return 
         }
         if (cells[headIndex].classList.contains("snakeBody")) {
             clearInterval(timer)
             alert("Game Over - Collision with the body!")
             return true
         }
+
     }
 
     function moveSnake() {
@@ -110,8 +109,16 @@ function init() {
                 console.log(`score: ` + score)
             } 
             snake.unshift(snake[0] + snakeDirection)
+            if (checkCollision) {
+                //start button display
+            }
             addHead()
+            updateScore()
         }, 200)
+    }
+
+    function startBtn() {
+
     }
 
     function handleMovement(event) {
@@ -150,7 +157,6 @@ function init() {
     // LOAD PAGE
     createGrid()
     moveSnake()
-    updateScore()
   }
   
 window.addEventListener("DOMContentLoaded", init)
