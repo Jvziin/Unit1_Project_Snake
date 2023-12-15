@@ -1,10 +1,11 @@
+const grid = document.querySelector(".grid")
+
 function init() {
 
     // ? ELEMENTS
     // create grid
-    const grid = document.querySelector(".grid")
     const food = document.getElementById("food")
-  
+
     // ? VARIABLES
     // congif
     const width = 10
@@ -79,34 +80,30 @@ function init() {
 
     // ? HANDLE MOVEMENT 
 
-    function displayStartButton() {
-        document.getElementById("startBtn").style.display = "block"
-    }
-
-    function checkCollision() {
-        const headIndex = snake[0]
-        if ((Math.floor(headIndex / width) === 0 && snakeDirection === -10) ||
-            (Math.floor(headIndex / width) === 9 && snakeDirection === 10)|| 
-            (snakeDirection === 1 && headIndex % width === 9) ||
-            (snakeDirection === -1 && headIndex % width === 0)
-        ) {
-            clearInterval(timer)
-            displayStartButton()
-            alert("GAME OVER")
-            return 
-        }
-        if (cells[headIndex].classList.contains("snakeBody")) {
-            clearInterval(timer)
-            displayStartButton()
-            alert("GAME OVER")
-            return true
-        }
-    }
-
     function moveSnake() {
         timer = setInterval(() => {
-            checkCollision()
             removeHead()
+            // checkCollision()
+            const headIndex = snake[0]
+            if ((Math.floor(headIndex / width) === 0 && snakeDirection === -10) ||
+                (Math.floor(headIndex / width) === 9 && snakeDirection === 10)|| 
+                (headIndex % width === 9 && snakeDirection === 1) ||
+                (headIndex % width === 0 && snakeDirection === -1 )
+            ) {
+                clearInterval(timer)
+                // alert("GAME OVER")
+                gameOver()
+                document.getElementById("startBtn").style.display = "block"
+                return 
+            }
+            if (cells[headIndex].classList.contains("snakeBody")) {
+                clearInterval(timer)
+                // alert("GAME OVER")
+                gameOver()
+                document.getElementById("startBtn").style.display = "block"
+                return true
+            }
+
             if (!cells[snake[0] + snakeDirection].classList.contains("food")) {
                 snake.pop()
             } else {
@@ -119,10 +116,6 @@ function init() {
             addHead()
             updateScore()
         }, 200)
-    }
-
-    function startBtn() {
-
     }
 
     function handleMovement(event) {
@@ -157,10 +150,24 @@ function init() {
 
     // EVENTS
     document.addEventListener("keyup", handleMovement)
+    document.getElementById("startBtn").addEventListener("click", startGame)
 
     // LOAD PAGE
     createGrid()
     moveSnake()
   }
+
+  function startGame() {
+    document.getElementById("gameOver").style.visibility = "hidden"
+    document.getElementById("startBtn").style.display = "none"
+    grid.innerHTML = ""
+    document.getElementById("startBtn").blur()
+    init()
+}
+
+function gameOver() {
+    document.getElementById("gameOver").style.visibility = "visible"
+    document.getElementById("startBtn").style.display = "block"
+}
   
 window.addEventListener("DOMContentLoaded", init)

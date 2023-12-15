@@ -86,7 +86,7 @@ a:hover {
     margin-left: 50px;
     margin-bottom: -80px;
     width: 50px;
-    color: rgb(185, 226, 252);
+    color: yellow;
 }
 
 h4 {
@@ -96,6 +96,18 @@ h4 {
 }
 
 #startBtn {
+    font-size: 30px;
     display: none;
+    color: black;
     background-color: yellow;
+    margin-bottom: 600px;
+}
+
+#gameOver {
+    color: yellow;
+    font-size: 50px;
+    visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
